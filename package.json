@@ -2,27 +2,31 @@
   "name": "sanity-podcast-server",
   "version": "1.0.1",
   "description": "Get the RSS feed for your podcasts in Sanity",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-    "inspect": "nodemon --inspect index.js",
-    "start": "node index.js"
+    "start": "nodemon  ./index.ts",
+    "inspect": "nodemon --inspect ./dist/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sanity/client": "^0.141.6",
-    "dotenv": "^8.0.0",
+    "@hapi/hapi": "^21.3.12",
+    "@hapi/inert": "^7.1.0",
+    "@sanity/client": "^6.27.2",
+    "dotenv": "^16.4.7",
     "hapi": "^18.1.0",
     "inert": "^5.1.3",
     "js2xmlparser": "^4.0.0",
     "rss": "^1.2.2"
   },
   "devDependencies": {
-    "babel-preset-airbnb": "^4.0.1",
-    "eslint": "^6.0.1",
-    "eslint-config-airbnb": "^17.1.1",
-    "nodemon": "^1.19.1"
+    "@types/dotenv": "^6.1.1",
+    "@types/hapi": "^18.0.14",
+    "@types/node": "^22.10.10",
+    "@types/rss": "^0.0.32",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }
