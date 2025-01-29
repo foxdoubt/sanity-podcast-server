@@ -1,25 +1,27 @@
 import dotenv from "dotenv";
 import Hapi from "@hapi/hapi";
 import Inert from "@hapi/inert";
-import path from "path";
-import { indexRoute, podcastRoute } from "./lib/routes/routes";
+
+import {
+  indexRoute,
+  podcastRoute,
+  podcastShortRoute,
+} from "./lib/routes/routes";
+import config from "./lib/app-config";
 
 dotenv.config();
 
 process.on("unhandledRejection", (reason, p) => {
   console.log("Unhandled Rejection at: Promise", p, "reason:", reason);
-  // application specific logging, throwing an error, or other logic here
 });
 
 const server = new Hapi.Server({
-  port: process.env.PORT || 8888,
+  port: config.port,
 });
 
 const provision = async () => {
-  await server.register(Inert);
-  server.route([indexRoute, podcastRoute]);
+  server.route([indexRoute, podcastRoute, podcastShortRoute]);
 
-  // Start the server
   try {
     await server.register([
       {

@@ -19,3 +19,11 @@ export const podcastRoute: ServerRoute = {
     handler: async (request, h) => podcastRSS(request, h),
   },
 };
+
+export const podcastShortRoute: ServerRoute = {
+  method: "GET",
+  path: "/rss",
+  options: {
+    handler: async (request, h) => podcastRSS(request, h),
+  },
+};

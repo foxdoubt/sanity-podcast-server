@@ -19,7 +19,7 @@ export default async (
   });
 
   const query = podcastFeed;
-  const generator = `Sanity Podcast Server v${config.npmPackageVersion}`;
+  const generator = `Sanity Podcast Server`;
 
   const data = await client
     .fetch(query, { slug })
