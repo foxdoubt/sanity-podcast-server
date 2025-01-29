@@ -1,4 +1,4 @@
-module.exports = `*[_type == 'podcast'][0]{
+const podcastFeedGroqQuery = `*[_type == 'podcast'][0]{
     title,
     "link": itunes.url,
     language,
@@ -36,4 +36,6 @@ module.exports = `*[_type == 'podcast'][0]{
       "itunesFeedSubtitle": subtitle
 
     }
-  }`
+  }`;
+
+export default podcastFeedGroqQuery;

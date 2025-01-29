@@ -2,11 +2,7 @@ import dotenv from "dotenv";
 import Hapi from "@hapi/hapi";
 import Inert from "@hapi/inert";
 import path from "path";
-import { indexRoute } from "./lib/routes";
-
-// const { indexRoute } = routes;
-
-// const { favicon } = require("./lib/plugins/");
+import { indexRoute, podcastRoute } from "./lib/routes/routes";
 
 dotenv.config();
 
@@ -20,11 +16,8 @@ const server = new Hapi.Server({
 });
 
 const provision = async () => {
-  // Add the route
   await server.register(Inert);
-
-  // server.route([indexRoute, files, podcast, podcastShort]);
-  server.route([indexRoute]);
+  server.route([indexRoute, podcastRoute]);
 
   // Start the server
   try {
