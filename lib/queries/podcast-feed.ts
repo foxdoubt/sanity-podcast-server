@@ -23,6 +23,7 @@ const podcastFeedGroqQuery = `*[_type == 'podcast'][0]{
     "episodes": *[references(^._id) && _type == "episode"]{
       title,
       description,
+      "slug": slug.current,
       "guid": _id,
       "pubDate": schedule.publish,
       "enclosureUrl": file.asset->url,
