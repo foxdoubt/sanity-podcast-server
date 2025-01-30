@@ -119,13 +119,14 @@ export default async (
     ],
   });
 
-  episodes.forEach(
-    ({
+  episodes.forEach((attrs: any) => {
+    const {
       guid,
       title,
       description,
       url,
       date,
+      slug,
       itunesImageHref,
       enclosureUrl,
       enclosureLength,
@@ -134,43 +135,44 @@ export default async (
       itunesDuration,
       itunesSummary,
       itunesFeedSubtitle,
-    }: any) => {
-      feed.item({
-        title,
-        guid,
-        description,
-        url,
-        date,
-        custom_elements: [
-          {
-            enclosure: [
-              {
-                _attr: {
-                  url: enclosureUrl,
-                  length: enclosureLength,
-                  type: itunesEpisodeType,
-                },
+    } = attrs;
+
+    feed.item({
+      title,
+      guid,
+      description,
+      url,
+      date,
+      custom_elements: [
+        { slug },
+        {
+          enclosure: [
+            {
+              _attr: {
+                url: enclosureUrl,
+                length: enclosureLength,
+                type: itunesEpisodeType,
               },
-            ],
-          },
-          { "itunes:summary": itunesSummary },
-          { "itunes:subtitle": itunesFeedSubtitle },
-          { "itunes:episodeType": itunesEpisodeType },
-          { "itunes:duration": itunesDuration },
-          { "itunes:explicit": itunesExplicit ? "yes" : "no" },
-          {
-            "itunes:image": [
-              {
-                _attr: {
-                  href: itunesImageHref,
-                },
+            },
+          ],
+        },
+        { "itunes:summary": itunesSummary },
+        { "itunes:subtitle": itunesFeedSubtitle },
+        { "itunes:episodeType": itunesEpisodeType },
+        { "itunes:duration": itunesDuration },
+        { "itunes:explicit": itunesExplicit ? "yes" : "no" },
+        {
+          "itunes:image": [
+            {
+              _attr: {
+                href: itunesImageHref,
               },
-            ],
-          },
-        ],
-      });
-    }
-  );
+            },
+          ],
+        },
+      ],
+    });
+  });
   const response = h.response(feed.xml());
   response.type("application/xml");
   return response;
