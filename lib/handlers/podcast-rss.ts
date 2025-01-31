@@ -1,24 +1,25 @@
 import RSS from "rss";
-import { createClient, SanityClient } from "@sanity/client";
+import { SanityClient } from "@sanity/client";
 import podcastFeed from "../queries/podcast-feed";
 import { Request, ReqRefDefaults, ResponseToolkit } from "@hapi/hapi";
 import config from "../app-config";
 
 export default async (
-  request: Request<ReqRefDefaults>,
-  h: ResponseToolkit<ReqRefDefaults>,
-  client: SanityClient
+  request: Request<{ Server: { app: { sanityClient: SanityClient } } }>,
+  h: ResponseToolkit<ReqRefDefaults>
 ) => {
   const {
     params: { slug },
   } = request;
+
+  const client = request.server.app.sanityClient;
 
   const query = podcastFeed;
   const generator = `Sanity Podcast Server`;
 
   const data = await client
     .fetch(query, { slug })
-    .catch((err) => console.error(err));
+    .catch((err: any) => console.error(err));
 
   const {
     title = "",

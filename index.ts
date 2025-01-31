@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import Hapi from "@hapi/hapi";
 import Inert from "@hapi/inert";
+import { createClient, SanityClient } from "@sanity/client";
 
 import { indexRoute, podcastRoute } from "./lib/routes/routes";
 import config from "./lib/app-config";
@@ -11,9 +12,15 @@ process.on("unhandledRejection", (reason, p) => {
   console.log("Unhandled Rejection at: Promise", p, "reason:", reason);
 });
 
-const server = new Hapi.Server({
+const server = new Hapi.Server<{ sanityClient: SanityClient }>({
   port: config.port,
-  tls: true,
+});
+
+server.app.sanityClient = createClient({
+  projectId: config.projectId,
+  dataset: config.dataset,
+  useCdn: true,
+  apiVersion: config.currentAPIVersion,
 });
 
 const provision = async () => {
