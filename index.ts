@@ -13,6 +13,7 @@ process.on("unhandledRejection", (reason, p) => {
 
 const server = new Hapi.Server({
   port: config.port,
+  tls: true,
 });
 
 const provision = async () => {
