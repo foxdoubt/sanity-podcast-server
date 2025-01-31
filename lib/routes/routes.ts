@@ -14,15 +14,7 @@ export const indexRoute: ServerRoute = {
 
 export const podcastRoute: ServerRoute = {
   method: "GET",
-  path: "/{projectId}/{dataset}/{slug}/rss",
-  options: {
-    handler: async (request, h) => podcastRSS(request, h),
-  },
-};
-
-export const podcastShortRoute: ServerRoute = {
-  method: "GET",
-  path: "/rss",
+  path: "/{slug}/rss",
   options: {
     handler: async (request, h) => podcastRSS(request, h),
   },
