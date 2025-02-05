@@ -1,7 +1,0 @@
-{
-  "watch": ["src/**/*.(ts|js)"],
-  "ext": "ts",
-  "execMap": {
-    "ts": "ts-node --transpile-only"
-  }
-}

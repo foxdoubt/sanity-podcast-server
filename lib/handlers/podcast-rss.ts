@@ -1,21 +1,15 @@
 import RSS from "rss";
 import { SanityClient } from "@sanity/client";
 import podcastFeed from "../queries/podcast-feed";
-import { Request, ReqRefDefaults, ResponseToolkit } from "@hapi/hapi";
 import config from "../app-config";
+import { HandlerEvent } from "@netlify/functions";
 
-export default async (
-  request: Request<{ Server: { app: { sanityClient: SanityClient } } }>,
-  h: ResponseToolkit<ReqRefDefaults>
-) => {
-  const {
-    params: { slug },
-  } = request;
-
-  const client = request.server.app.sanityClient;
+export default async (event: HandlerEvent, client: SanityClient) => {
+  const { queryStringParameters } = event;
+  const { slug } = queryStringParameters as { slug: string };
 
   const query = podcastFeed;
-  const generator = `Sanity Podcast Server`;
+  const generator = `Get RSS Function for '${slug}'`;
 
   const data = await client
     .fetch(query, { slug })
@@ -169,7 +163,6 @@ export default async (
       ],
     });
   });
-  const response = h.response(feed.xml());
-  response.type("application/xml");
-  return response;
+
+  return feed.xml();
 };
