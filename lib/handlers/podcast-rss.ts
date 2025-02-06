@@ -1,24 +1,14 @@
 import RSS from "rss";
 import { SanityClient } from "@sanity/client";
 import podcastFeed from "../queries/podcast-feed";
-import { Request, ReqRefDefaults, ResponseToolkit } from "@hapi/hapi";
 import config from "../app-config";
 
-export default async (
-  request: Request<{ Server: { app: { sanityClient: SanityClient } } }>,
-  h: ResponseToolkit<ReqRefDefaults>
-) => {
-  const {
-    params: { slug },
-  } = request;
-
-  const client = request.server.app.sanityClient;
-
+export default async (episodeName: string, client: SanityClient) => {
   const query = podcastFeed;
-  const generator = `Sanity Podcast Server`;
+  const generator = `Get RSS Function for '${episodeName}'`;
 
   const data = await client
-    .fetch(query, { slug })
+    .fetch(query, { slug: episodeName })
     .catch((err: any) => console.error(err));
 
   const {
@@ -54,7 +44,7 @@ export default async (
     ttl,
     site_url: link,
     image_url: itunesImage,
-    feed_url: slug,
+    feed_url: episodeName,
     copyright,
     language,
     categories: [primary, secondary && secondary, tertiary && tertiary],
@@ -169,7 +159,6 @@ export default async (
       ],
     });
   });
-  const response = h.response(feed.xml());
-  response.type("application/xml");
-  return response;
+
+  return feed.xml();
 };
