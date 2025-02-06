@@ -2,17 +2,13 @@ import RSS from "rss";
 import { SanityClient } from "@sanity/client";
 import podcastFeed from "../queries/podcast-feed";
 import config from "../app-config";
-import { HandlerEvent } from "@netlify/functions";
 
-export default async (event: HandlerEvent, client: SanityClient) => {
-  const { queryStringParameters } = event;
-  const { slug } = queryStringParameters as { slug: string };
-
+export default async (episodeName: string, client: SanityClient) => {
   const query = podcastFeed;
-  const generator = `Get RSS Function for '${slug}'`;
+  const generator = `Get RSS Function for '${episodeName}'`;
 
   const data = await client
-    .fetch(query, { slug })
+    .fetch(query, { slug: episodeName })
     .catch((err: any) => console.error(err));
 
   const {
@@ -48,7 +44,7 @@ export default async (event: HandlerEvent, client: SanityClient) => {
     ttl,
     site_url: link,
     image_url: itunesImage,
-    feed_url: slug,
+    feed_url: episodeName,
     copyright,
     language,
     categories: [primary, secondary && secondary, tertiary && tertiary],
