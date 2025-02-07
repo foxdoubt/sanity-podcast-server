@@ -3,12 +3,12 @@ import { SanityClient } from "@sanity/client";
 import podcastFeed from "../queries/podcast-feed";
 import config from "../app-config";
 
-export default async (episodeName: string, client: SanityClient) => {
+export default async (podcastName: string, client: SanityClient) => {
   const query = podcastFeed;
-  const generator = `Get RSS Function for '${episodeName}'`;
+  const generator = `Get RSS Function for '${podcastName}'`;
 
   const data = await client
-    .fetch(query, { slug: episodeName })
+    .fetch(query, { slug: podcastName })
     .catch((err: any) => console.error(err));
 
   const {
@@ -44,7 +44,7 @@ export default async (episodeName: string, client: SanityClient) => {
     ttl,
     site_url: link,
     image_url: itunesImage,
-    feed_url: episodeName,
+    feed_url: podcastName,
     copyright,
     language,
     categories: [primary, secondary && secondary, tertiary && tertiary],
